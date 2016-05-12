@@ -1,13 +1,16 @@
 function _getPointCss(value){
 	return "@media screen and (width:" + value + "px){html{font-size:" + value/10 +"px;}}";
 }
-function getRangeCss(start, end){
+function _getRangeCss(start, end){
 	return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
 }
 function main(listProvider){
 	listProvider = listProvider || [] // 数据源viewportsizes.com--> http://viewportsizes.com/devices.json
-	var view_port_min = view_port_min || 320;
-	var view_port_max = view_port_max || 750;
+	if(listProvider.length===0){
+		return console.error('listProvider is null!');
+	}
+	var view_port_min =  320;
+	var view_port_max = 750;
 	
 	// step1: 提取Portrait Width 属性值放于set集合中
 	var set = {};
@@ -18,7 +21,8 @@ function main(listProvider){
 	// step2: 将集合中值转为从小到大有序数组  
 	var nosort = [];
 	for(var val in set) {
-		if(!isNaN(+val) && +val >= view_port_min && +val <= view_port_max) nosort.push(+val);
+		if(!isNaN(+val) && val > view_port_min && val < view_port_max) 
+			nosort.push(+val);
 	}
 	var sort = nosort.sort(function(a, b){
 		return a-b; 
@@ -30,7 +34,7 @@ function main(listProvider){
 		cssText.push(_getPointCss(sort[i]));
 		cssText.push(_getRangeCss(sort[i], sort[i+1]));
 	}
-	cssText.push(getPointCss(sort[i]));
+	cssText.push(_getPointCss(sort[i]));
 	
 	// step4: 打印出来
 	console.log(cssText.join(''));
