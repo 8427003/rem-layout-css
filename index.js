@@ -1,4 +1,44 @@
-var xx = [
+function _getPointCss(value){
+	return "@media screen and (width:" + value + "px){html{font-size:" + value/10 +"px;}}";
+}
+function getRangeCss(start, end){
+	_return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
+}
+function main(listProvider){
+	listProvider = listProvider || [] // 数据源viewportsizes.com--> http://viewportsizes.com/devices.json
+	var view_port_min = view_port_min || 320;
+	var view_port_max = view_port_max || 750;
+	
+	// step1: 提取Portrait Width 属性值放于set集合中
+	var set = {};
+	listProvider.map(function(item){
+	    set[item['Portrait Width']] = true;
+	});
+	
+	// step2: 将集合中值转为从小到大有序数组  
+	var nosort = [];
+	for(var val in set) {
+		if(!isNaN(+val) && +val >= view_port_min && +val <= view_port_max) nosort.push(+val);
+	}
+	var sort = nosort.sort(function(a, b){
+		return a-b; 
+	});
+	
+	// step3: 拼css字符串
+	var cssText = [];
+	for(var i = 0, size = sort.length-1; i < size; i ++) {
+		cssText.push(_getPointCss(sort[i]));
+		cssText.push(_getRangeCss(sort[i], sort[i+1]));
+	}
+	cssText.push(getPointCss(sort[i]));
+	
+	// step4: 打印出来
+	console.log(cssText.join(''));
+}
+
+
+// open http://viewportsizes.com/devices.json  in chrome and copy content  as function params 
+main([
 	{
 		"Device Name":"Acer Iconia Tab A1-810",
 		"Platform":"Android",
@@ -2287,38 +2327,4 @@ var xx = [
 		"Landscape Width":"534",
 		"Release Date":"2013-10"
 	}
-];
-
-// 提取Portrait Width 属性值放于set集合中
-var set = {};
-xx.map(function(item){
-    set[item['Portrait Width']] = true;
-});
-
-// 将集合中值转为从小到大有序数组
-var nosort = [];
-for(var val in set) {
-	if(!isNaN(+val))
-		nosort.push(+val);
-}
-var sort = nosort.sort(function(a, b){
-	return a-b; 
-});
-
-// 拼css字符串
-var cssText = [];
-for(var i = 0, size = sort.length-1; i < size; i ++) {
-	cssText.push(getPointCss(sort[i]));
-	cssText.push(getRangeCss(sort[i], sort[i+1]));
-}
-cssText.push(getPointCss(sort[i]));
-
-// 打印出来
-console.log(cssText.join(''));
-
-function getPointCss(value){
-	return "@media screen and (width:" + value + "px){html{font-size:" + value/10 +"px;}}";
-}
-function getRangeCss(start, end){
-	return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
-}
+]);
