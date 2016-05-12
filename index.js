@@ -2,7 +2,7 @@ function _getPointCss(value){
 	return "@media screen and (width:" + value + "px){html{font-size:" + value/10 +"px;}}";
 }
 function getRangeCss(start, end){
-	_return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
+	return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
 }
 function main(listProvider){
 	listProvider = listProvider || [] // 数据源viewportsizes.com--> http://viewportsizes.com/devices.json
