@@ -21,7 +21,7 @@ function main(listProvider){
 	// step2: 将集合中值转为从小到大有序数组  
 	var nosort = [];
 	for(var val in set) {
-		if(!isNaN(+val) && val > view_port_min && val < view_port_max) 
+		if(!isNaN(+val) && +val >= view_port_min && +val <= view_port_max) 
 			nosort.push(+val);
 	}
 	var sort = nosort.sort(function(a, b){
