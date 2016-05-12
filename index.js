@@ -38,6 +38,7 @@ function main(listProvider){
 	
 	// step4: 打印出来
 	console.log(cssText.join(''));
+	console.log('去这里格式化http://tool.oschina.net/codeformat/css')
 }
 
 
