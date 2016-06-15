@@ -1,16 +1,20 @@
+var RATIO = 10; // eg: 320px = "view-port" => "html font-size" = 320 / RATIO 
+var VIEW_PORT_MIN = 320; // default 320   care for 320px - 750px view-port device
+var VIEW_PORT_MAX = 750; // default 750   care for 320px - 750px view-port device
+
 function _getPointCss(value){
-	return "@media screen and (width:" + value + "px){html{font-size:" + value/10 +"px;}}";
+	return "@media screen and (width:" + value + "px){html{font-size:" + value/RATIO +"px;}}";
 }
 function _getRangeCss(start, end){
-	return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/10 +"px;}}";
+	return "@media screen and (min-width:" + (start+1) +"px) and (max-width:" + (end-1) +"px){html{font-size:" + start/RATIO +"px;}}";
 }
 function main(listProvider){
 	listProvider = listProvider || [] // 数据源viewportsizes.com--> http://viewportsizes.com/devices.json
 	if(listProvider.length===0){
 		return console.error('listProvider is null!');
 	}
-	var view_port_min =  320;
-	var view_port_max = 750;
+	var view_port_min =  VIEW_PORT_MIN;
+	var view_port_max = VIEW_PORT_MAX;
 	
 	// step1: 提取Portrait Width 属性值放于set集合中
 	var set = {};
